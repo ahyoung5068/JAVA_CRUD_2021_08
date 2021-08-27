@@ -5,23 +5,19 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-	
-	private static List<Article> articles; //위치 위로 바꾸고, //private은 외부에서 접근 금지라는 말.
-	
-	static {//생성자로 만들기 //static 생성자는 static으로 만들어야함 !
-		 articles = new ArrayList<>(); //ArrayList 객체로 만든것
+
+	private static List<Article> articles;
+
+	static {
+		articles = new ArrayList<>();
 	}
-	
-	
-	public static void main(String[] args) {//static은 오직 static끼리만 통신이 가능하다 !
+
+	public static void main(String[] args) {
 		System.out.println("==프로그램 시작==");
-		
+
 		makeTestData();
-		
+
 		Scanner sc = new Scanner(System.in);
-		//int lastArticleId = 0; 
-		//첫번째가 0이면, 3개의 데이터를 생성한 다음, article write했을 때 4번이 되어야 하는데 다시 1이 됨.
-		//articles.size(); 배열 안에 데이터가 몇 개인지 확인할 때 씀.
 
 		while (true) {
 			System.out.printf("명령어) ");
@@ -34,14 +30,13 @@ public class Main {
 			}
 			if (command.equals("article write")) {
 				int id = articles.size() + 1;
-				//lastArticleId = id; //int id를 articles.size()로 바꿨기 때문에 이건 필요X.
 				String regDate = Util.getNowDateStr();
 				System.out.printf("제목 : ");
 				String title = sc.nextLine();
 				System.out.printf("내용 : ");
 				String body = sc.nextLine();
 
-				Article article = new Article(id, regDate, title, body, 0); //최초의 조회수는 0이니까 0.
+				Article article = new Article(id, regDate, title, body);
 				articles.add(article);
 
 				System.out.printf("%d번 글이 생성되었습니다.\n", id);
@@ -50,11 +45,11 @@ public class Main {
 					System.out.println("게시물이 없습니다.");
 					continue;
 				}
-				System.out.println("번호  |  조회 |  제목");
+				System.out.println("번호  |  조회 | 제목");
 				for (int i = articles.size() - 1; i >= 0; i--) {
 					Article article = articles.get(i);
 
-					System.out.printf("%4d  |  %4d |  %s\n", article.id, article.hit, article.title);
+					System.out.printf("%4d | %4d | %s\n", article.id, article.hit, article.title);
 				}
 
 			} else if (command.startsWith("article detail ")) {
@@ -151,16 +146,13 @@ public class Main {
 
 	private static void makeTestData() {
 		System.out.println("테스트를 위한 데이터를 생성합니다.");
-		
-		articles.add(new Article(1,Util.getNowDateStr(),"제목 1","내용 1",11));
-		articles.add(new Article(1,Util.getNowDateStr(),"제목 2","내용 2",22));
-		articles.add(new Article(1,Util.getNowDateStr(),"제목 3","내용 3",33));
-	} //add로 데이터 3개 생성함. (제목, 내용, 조회수), 여기서 조회수 11,22,33 은 지정한 것...
-}
 
-//class makeTestData {
-//이건 ?
-//}
+		articles.add(new Article(1, Util.getNowDateStr(), "제목1", "내용1", 11));
+		articles.add(new Article(2, Util.getNowDateStr(), "제목2", "내용2", 22));
+		articles.add(new Article(3, Util.getNowDateStr(), "제목3", "내용3", 33));
+	}
+
+}
 
 class Article {
 	int id;
@@ -169,13 +161,11 @@ class Article {
 	String body;
 	int hit;
 
-	//아래 2개는 엄연히 다른 method, 매개변수의 개수나 타입이 다르기 때문에 '메서드 오버로딩' 한 것 !
-	public Article(int id, String regDate, String title, String body) { //인자 4개짜리의 실행을 위해.
-		this(id, regDate, title, body, 0); 
-		//생성자가 다른 생성자에게 일을 떠밀 때 이렇게 써야 함 //ex) this();
+	public Article(int id, String regDate, String title, String body) {
+		this(id, regDate, title, body, 0);
 	}
-	
-	public Article(int id, String regDate, String title, String body, int hit) { //인자 5개짜리의 실행을 위해.
+
+	public Article(int id, String regDate, String title, String body, int hit) {
 		this.id = id;
 		this.regDate = regDate;
 		this.title = title;
